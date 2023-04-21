@@ -1,39 +1,49 @@
-# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
+# Activity Icarus Sigfox
 
 MoveApps
 
-Github repository: *github.com/yourAccount/Name-of-App* *(the link to the repository where the code of the app can be found must be provided)*
+Github repository: *github.com/movestore/Activity_Icarus_Sigfox*
 
 ## Description
-*Enter here the short description of the App that might also be used when filling out the description when submitting the App to Moveapps. This text is directly presented to Users that look through the list of Apps when compiling Workflows.*
+Reformat and plot the VeDBA based activity index from Icarus Sigfox tags.
 
 ## Documentation
-*Enter here a detailed description of your App. What is it intended to be used for. Which steps of analyses are performed and how. Please be explicit about any detail that is important for use and understanding of the App and its outcomes.*
+This App is tailor made for the extraction of the VeDBA based activity index from Icarus Sigfox tag as developed at the MPIAB. It expects that the activity index is provided via Movebank in the attribute `sigfox_sensor_data_raw` and formatted as 6 successive measures in one hexadecimal string.
+
+Here, the timestamp and activity index measure will be transformed into single, decimal time-referenced values. These are provided as a csv output file. 
+
+Furthermore, the activity vedba index is plotted against time, with additional lines of running mean (centred around each location) of provided segment length. A background information of hourly mean +/- standard deviation over all days of data is added to the plot to enable to user to pick out unusual behaviour of the tracked animal. The plot is provided as multipage pdf.
+
+Note that in each plot the full time interval of the provided data for the respective track/animal is plotted. If that is too long, please either download less data or use the [`Filter by Time Interval App`](https://www.moveapps.org/apps/browser/168ca35d-ff6c-44ed-894c-f13ba561957b) or [`Filter by Individual Time Intervals`](https://www.moveapps.org/apps/browser/39b9ab83-4fe6-455d-afe9-da5d725e76ed) prior to this App.
+
+The extracted activity vedba index is added as extra track attribute to the input data as a string of 6 values. Note that for each row the attribute timestamp relates to the last of those 6 values.
 
 ### Input data
-*Indicate which type of input data the App requires. Currently only R objects of class `MoveStack` can be used. This will be extend in the future.*
-
-*Example*: MoveStack in Movebank format
+non-location move2 object in Movebank format
 
 ### Output data
-*Indicate which type of output data the App produces to be passed on to subsequent apps. Currently only R objects of class `MoveStack` can be used. This will be extend in the future. In case the App does not pass on any data (e.g. a shiny visualization app), it can be also indicated here that no output is produced to be used in subsequent apps.*
-
-*Example:* MoveStack in Movebank format
+non-location move2 object in Movebank format
 
 ### Artefacts
-*If the App creates artefacts (e.g. csv, pdf, jpeg, shapefiles, etc), please list them here and describe each.*
+`activity_vedba_index.csv`: .csv table providing the complete set of decimal activity vedba index values for all tracks/animals. The timestamps relate directly to each activity index. Running means as used for the plot are provided for convenience.
 
-*Example:* `rest_overview.csv`: csv-file with Table of all rest site properties
+`activity_vedba_index.pdf`: multipage .pdf file where for each track/animal the extracted activity vedba index (red line) is plotted against time. A running mean is added (blue line) as well as a background hourly mean over all data.
 
 ### Settings 
-*Please list and define all settings/parameters that the App requires to be set by the App user, if necessary including their unit.*
+**Time interval length between activity measures (dt):** Mandatory input from user defining the time interval between the measures in each cluster of raw activity measures. No default. See below for possible units, value needs to be integer.
 
-*Example:* `Radius of resting site` (radius): Defined radius the animal has to stay in for a given duration of time for it to be considered resting site. Unit: `metres`.
+**Unit of time difference between activity measures (dt_unit):** Time unit for time interval length between activity measures. Possible values are `seconds`, `minutes` and `hours`. Default `minutes`.
+
+**Interval length for running mean (runm_n):** Segement length (number of successive activity index values) for the calculation of running means. Default: 1 (indicating no averaging)
 
 ### Most common errors
-*Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
+none yet
 
 ### Null or error handling
-*Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if settings/parameters are improperly set and any other important information that you find the user should be aware of.*
+**Setting `dt`:** If this measure does not fit your data, the results will be wrong.
 
-*Example:* **Setting `radius`:** If no radius AND no duration are given, the input data set is returned with a warning. If no radius is given (NULL), but a duration is defined then a default radius of 1000m = 1km is set. 
+**Setting `dt_unit`:** If this unit is incorrect, your results will be wrong.
+
+**Setting `runm_n`:** If this value is too large and/or the data set too short, the running mean might become very crude. If this value is too small and/or the data too long, it might not differ much from the raw activity vedba index. Minimum value 1. Value 0 will lead to an error.
+
+**data**: If there are missing values of `sigfox_sensor_data_raw`, the addition of the string of activity vedba indices can lead to an error.

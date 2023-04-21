@@ -1,21 +1,57 @@
 {
   "settings": [
     {
-      "id": "year",
-      "name": "The year.",
-      "description": "Insert description for the year setting setting",
-      "defaultValue": 2022,
+      "id": "dt",
+      "name": "Time interval length between activity measures",
+      "description": "Provide the time difference value (unit below), indicating how long the interval between single collected activity measures is.",
+      "defaultValue": null,
+      "type": "INTEGER"
+    },
+	{
+      "id": "dt_unit",
+      "name": "Unit of time difference between activity measures",
+      "description": "Select the time unit of your above given time interval length value between successive activity measures.",
+      "defaultValue": "mins",
+      "type": "RADIOBUTTONS",
+	  "options": [
+		{
+          "value": "Seconds",
+          "displayText": "secs"
+        },
+		        {
+          "value": "Minutes",
+          "displayText": "mins"
+        },
+		        {
+          "value": "Hours",
+          "displayText": "hours"
+        }
+	  ]
+    },
+	{
+      "id": "runm_n",
+      "name": "Interval length for running mean",
+      "description": "Insert the number of measures that shall be used to calculate the running mean of the activity measure. Note that it will be centered around the actual measure leading to short undefined intervals at the beginning and end of the time series. Default to no mean (1).",
+      "defaultValue": 1,
       "type": "INTEGER"
     }
   ],
   "dependencies": {
     "R": [
       {
-        "name": "lubridate",
-        "version": "1.7.10"
+        "name": "lubridate"
       },
       {
-        "name": "move"
+        "name": "move2"
+      },
+	  {
+        "name": "data.table"
+      },
+      {
+        "name": "broman"
+      },
+	  {
+        "name": "foreach"
       }
     ]
   },
@@ -25,39 +61,30 @@
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
+    "activity",
+    "vedba",
+	"index",
+	"mortality",
+	"icarus",
+	"sigfox"
   ],
   "people": [
     {
-      "firstName": "Charles",
+     "firstName": "Andrea",
       "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
+      "lastName": "Kölzsch",
+      "email": "akoelzsch@ab.mpg.de",
       "roles": [
         "author",
         "creator"
       ],
-      "orcid": null,
-      "affiliation": null,
-      "affiliationRor": null
-    }
-  ],
-  "funding": [
-    {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
+      "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
     }
   ],
   "documentation": {
-    "url": "https://github.com/yourAccount/my-app/README.md"
+    "url": "https://github.com/movestore/Activity_Icarus_Sigfox/blob/master/README.md"
   }
 }
 
