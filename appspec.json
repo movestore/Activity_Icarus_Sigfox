@@ -15,16 +15,16 @@
       "type": "RADIOBUTTONS",
 	  "options": [
 		{
-          "value": "Seconds",
-          "displayText": "secs"
+          "value": "secs",
+          "displayText": "Seconds"
         },
 		        {
-          "value": "Minutes",
-          "displayText": "mins"
+          "value": "mins",
+          "displayText": "Minutes"
         },
 		        {
-          "value": "Hours",
-          "displayText": "hours"
+          "value": "hours",
+          "displayText": "Hours"
         }
 	  ]
     },
